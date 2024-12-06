@@ -1,33 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:padding="16dp"
     android:background="?android:attr/selectableItemBackground">
 
-    <TextView
-        android:id="@+id/titreTextView"
+    <LinearLayout
+        android:id="@+id/infoLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text="Titre du rappel"
-        android:paddingBottom="8dp"/>
+        android:layout_toStartOf="@id/btnDeleteRappel"
+        android:layout_toLeftOf="@id/btnDeleteRappel"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/descriptionTextView"
-        android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/titreTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="Titre du rappel"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/descriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Description du rappel"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/heureTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="Heure : 00:00"
+            android:textColor="@android:color/darker_gray" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnDeleteRappel"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:text="Description du rappel"
-        android:paddingBottom="8dp"/>
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="Supprimer" />
 
-    <TextView
-        android:id="@+id/heureTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:text="Heure : 00:00"
-        android:textColor="@android:color/darker_gray"/>
-
-</LinearLayout>
+</RelativeLayout>

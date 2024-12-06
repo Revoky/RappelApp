@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,13 +45,11 @@ public class MainActivity extends AppCompatActivity {
                 AppDatabase db = AppDatabase.getInstance(MainActivity.this);
                 List<Rappel> rappels = db.rappelDao().getAllRappels();
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter = new RappelAdapter(rappels);
-                        recyclerView.setAdapter(adapter);
-                    }
+                runOnUiThread(() -> {
+                    adapter = new RappelAdapter(MainActivity.this, rappels);
+                    recyclerView.setAdapter(adapter);
                 });
+
             }
         });
 
@@ -64,6 +64,19 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnAddRappel).setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, AddRappelActivity.class));
         });
+
+        findViewById(R.id.btnDeleteAllRappels).setOnClickListener(v -> {
+            new Thread(() -> {
+                AppDatabase db = AppDatabase.getInstance(MainActivity.this);
+                db.rappelDao().deleteAll(); // Supprime tous les rappels de la base de données
+
+                runOnUiThread(() -> {
+                    adapter.clearRappels(); // Nettoie la liste des rappels dans l'adaptateur
+                    Toast.makeText(MainActivity.this, "Tous les rappels ont été supprimés", Toast.LENGTH_SHORT).show();
+                });
+            }).start();
+        });
+
 
     }
 

@@ -20,4 +20,7 @@ public interface RappelDao {
 
     @Query("SELECT * FROM rappels")
     List<Rappel> getAllRappels();
+
+    @Query("DELETE FROM rappels")
+    void deleteAll();
 }
