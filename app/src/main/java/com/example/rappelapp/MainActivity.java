@@ -1,37 +1,56 @@
 package com.example.rappelapp;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
-import android.widget.TextView;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.example.rappelapp.RappelAdapter;
+import com.example.rappelapp.AppDatabase;
+import com.example.rappelapp.Rappel;
+
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
+    private RecyclerView recyclerView;
+    private RappelAdapter adapter;
+    private ExecutorService executorService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        executorService = Executors.newSingleThreadExecutor();
+
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                AppDatabase db = AppDatabase.getInstance(MainActivity.this);
+                List<Rappel> rappels = db.rappelDao().getAllRappels();
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter = new RappelAdapter(rappels);
+                        recyclerView.setAdapter(adapter);
+                    }
+                });
+            }
         });
+    }
 
-        PreferencesManager preferencesManager = new PreferencesManager(this);
-
-        String currentTone = preferencesManager.getAlarmTone();
-        if ("default_tone".equals(currentTone)) {
-            preferencesManager.setAlarmTone("new_alarm_tone");
-            currentTone = preferencesManager.getAlarmTone();
-        }
-
-        TextView alarmToneTextView = findViewById(R.id.alarm_tone_text);
-        alarmToneTextView.setText("Sonnerie actuelle : " + currentTone);
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setMessage("Voulez-vous vraiment quitter l'application ?")
+                .setPositiveButton("Oui", (dialog, which) -> super.onBackPressed())
+                .setNegativeButton("Non", null)
+                .show();
     }
 }
