@@ -71,26 +71,4 @@ public class MainActivity extends AppCompatActivity {
                 .setNegativeButton("Non", null)
                 .show();
     }
-
-    executorService.execute(new Runnable() {
-        @Override
-        public void run() {
-            AppDatabase db = AppDatabase.getInstance(MainActivity.this);
-            // Ajout temporaire de rappels pour tester
-            Rappel rappel1 = new Rappel("Rappel 1", "Description du rappel 1", System.currentTimeMillis(), true);
-            Rappel rappel2 = new Rappel("Rappel 2", "Description du rappel 2", System.currentTimeMillis() + 3600000, false);
-            db.rappelDao().insert(rappel1);
-            db.rappelDao().insert(rappel2);
-
-            List<Rappel> rappels = db.rappelDao().getAllRappels();
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    adapter = new RappelAdapter(rappels);
-                    recyclerView.setAdapter(adapter);
-                }
-            });
-        }
-    });
 }
