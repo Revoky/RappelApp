@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "rappels")
 public class Rappel {
-    @PrimaryKey(autoGenerate = true)  // Ajout de la clé primaire auto-générée
+    @PrimaryKey(autoGenerate = true)
     private long id;
     private String titre;
     private String description;

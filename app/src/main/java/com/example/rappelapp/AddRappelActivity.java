@@ -22,13 +22,13 @@ public class AddRappelActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_rappel);
 
         editTextTitre = findViewById(R.id.editTextTitre);
-        editTextDescription = findViewById(R.id.editTextDescription);  // Ajouter le champ description
+        editTextDescription = findViewById(R.id.editTextDescription);
         editTextHeure = findViewById(R.id.editTextHeure);
         btnSaveRappel = findViewById(R.id.btnSaveRappel);
 
         btnSaveRappel.setOnClickListener(v -> {
             String titre = editTextTitre.getText().toString();
-            String description = editTextDescription.getText().toString();  // Récupérer la description
+            String description = editTextDescription.getText().toString();
             String heureStr = editTextHeure.getText().toString();
 
             if (titre.isEmpty() || description.isEmpty() || heureStr.isEmpty()) {
@@ -41,7 +41,7 @@ public class AddRappelActivity extends AppCompatActivity {
                 Date date = format.parse(heureStr);
                 long heure = date != null ? date.getTime() : System.currentTimeMillis();
 
-                Rappel rappel = new Rappel(titre, description, heure, true);  // Passer la description
+                Rappel rappel = new Rappel(titre, description, heure, true);
 
                 new Thread(() -> {
                     AppDatabase db = AppDatabase.getInstance(AddRappelActivity.this);
