@@ -23,17 +23,14 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // PreferencesManager
         PreferencesManager preferencesManager = new PreferencesManager(this);
 
-        // Enregistrer sonnerie
         String currentTone = preferencesManager.getAlarmTone();
         if ("default_tone".equals(currentTone)) {
             preferencesManager.setAlarmTone("new_alarm_tone");
             currentTone = preferencesManager.getAlarmTone();
         }
 
-        // MaJ interface utilisateur
         TextView alarmToneTextView = findViewById(R.id.alarm_tone_text);
         alarmToneTextView.setText("Sonnerie actuelle : " + currentTone);
     }
