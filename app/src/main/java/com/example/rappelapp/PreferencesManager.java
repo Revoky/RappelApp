@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class PreferencesManager {
-    private static final String PREF_NAME = "Preferences";
+    private static final String PREF_NAME = "AlarmAppPreferences";
     private static final String KEY_ALARM_TONE = "alarm_tone";
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
