@@ -1,8 +1,10 @@
 package com.example.rappelapp;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,8 +17,10 @@ import java.util.List;
 
 public class RappelAdapter extends RecyclerView.Adapter<RappelAdapter.RappelViewHolder> {
     private List<Rappel> rappels;
+    private Context context;
 
-    public RappelAdapter(List<Rappel> rappels) {
+    public RappelAdapter(Context context, List<Rappel> rappels) {
+        this.context = context;
         this.rappels = rappels;
     }
 
@@ -36,7 +40,18 @@ public class RappelAdapter extends RecyclerView.Adapter<RappelAdapter.RappelView
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         String heureStr = format.format(new Date(rappel.getHeure()));
         holder.heureTextView.setText(heureStr);
+
+        holder.btnDelete.setOnClickListener(v -> {
+            new Thread(() -> {
+                AppDatabase db = AppDatabase.getInstance(context);
+                db.rappelDao().delete(rappels.get(position));
+                rappels.remove(position);
+
+                ((MainActivity) context).runOnUiThread(() -> notifyItemRemoved(position));
+            }).start();
+        });
     }
+
 
     @Override
     public int getItemCount() {
@@ -47,12 +62,20 @@ public class RappelAdapter extends RecyclerView.Adapter<RappelAdapter.RappelView
         TextView titreTextView;
         TextView descriptionTextView;
         TextView heureTextView;
+        Button btnDelete;
 
         RappelViewHolder(View itemView) {
             super(itemView);
             titreTextView = itemView.findViewById(R.id.titreTextView);
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
             heureTextView = itemView.findViewById(R.id.heureTextView);
+            btnDelete = itemView.findViewById(R.id.btnDeleteRappel);
         }
     }
+
+    public void clearRappels() {
+        rappels.clear();
+        notifyDataSetChanged();
+    }
+
 }
