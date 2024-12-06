@@ -1,6 +1,7 @@
 package com.example.rappelapp;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,6 +52,15 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+
+        findViewById(R.id.btnSettings).setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+        });
+
+        findViewById(R.id.btnAbout).setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, AboutActivity.class));
+        });
+
     }
 
     @Override
@@ -61,4 +71,26 @@ public class MainActivity extends AppCompatActivity {
                 .setNegativeButton("Non", null)
                 .show();
     }
+
+    executorService.execute(new Runnable() {
+        @Override
+        public void run() {
+            AppDatabase db = AppDatabase.getInstance(MainActivity.this);
+            // Ajout temporaire de rappels pour tester
+            Rappel rappel1 = new Rappel("Rappel 1", "Description du rappel 1", System.currentTimeMillis(), true);
+            Rappel rappel2 = new Rappel("Rappel 2", "Description du rappel 2", System.currentTimeMillis() + 3600000, false);
+            db.rappelDao().insert(rappel1);
+            db.rappelDao().insert(rappel2);
+
+            List<Rappel> rappels = db.rappelDao().getAllRappels();
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapter = new RappelAdapter(rappels);
+                    recyclerView.setAdapter(adapter);
+                }
+            });
+        }
+    });
 }
