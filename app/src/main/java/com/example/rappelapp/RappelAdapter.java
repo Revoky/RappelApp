@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.rappelapp.R;
 import com.example.rappelapp.Rappel;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class RappelAdapter extends RecyclerView.Adapter<RappelAdapter.RappelViewHolder> {
@@ -28,8 +30,12 @@ public class RappelAdapter extends RecyclerView.Adapter<RappelAdapter.RappelView
     @Override
     public void onBindViewHolder(@NonNull RappelViewHolder holder, int position) {
         Rappel rappel = rappels.get(position);
-        holder.titreTextView.setText(rappel.titre);
-        holder.descriptionTextView.setText(rappel.description);
+        holder.titreTextView.setText(rappel.getTitre());
+        holder.descriptionTextView.setText(rappel.getDescription());
+
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        String heureStr = format.format(new Date(rappel.getHeure()));
+        holder.heureTextView.setText(heureStr);
     }
 
     @Override
@@ -40,11 +46,13 @@ public class RappelAdapter extends RecyclerView.Adapter<RappelAdapter.RappelView
     static class RappelViewHolder extends RecyclerView.ViewHolder {
         TextView titreTextView;
         TextView descriptionTextView;
+        TextView heureTextView;
 
         RappelViewHolder(View itemView) {
             super(itemView);
             titreTextView = itemView.findViewById(R.id.titreTextView);
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
+            heureTextView = itemView.findViewById(R.id.heureTextView);
         }
     }
 }

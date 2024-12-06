@@ -61,6 +61,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, AboutActivity.class));
         });
 
+        findViewById(R.id.btnAddRappel).setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, AddRappelActivity.class));
+        });
+
     }
 
     @Override
