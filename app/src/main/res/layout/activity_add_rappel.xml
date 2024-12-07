@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <EditText
+        android:id="@+id/editTextTitre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Titre du rappel"
+        android:textSize="18sp"/>
+
+    <EditText
+        android:id="@+id/editTextDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Description du rappel"
+        android:textSize="18sp"
+        android:inputType="textMultiLine"
+        android:lines="3"
+        android:gravity="top|start"
+        android:maxLines="3"
+        android:minLines="3"/>
+
+    <EditText
+        android:id="@+id/editTextHeure"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Heure (HH:mm)"
+        android:textSize="18sp"
+        android:inputType="time"/>
+
+    <Button
+        android:id="@+id/btnSaveRappel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enregistrer"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>

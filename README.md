@@ -6,13 +6,13 @@ Liste des fonctionnalités implémentées :
 
 [ ] Utilisation de SQLite
 
-[ ] Utilisation de Room
+[x] Utilisation de Room
 
 [ ] Utilisation de Firebase
 
-[ ] Nombre d'activités ou fragment supérieur ou égal à 3
+[x] Nombre d'activités ou fragment supérieur ou égal à 3
 
-[ ] Gestion du bouton Back (message pour confirmer que l'on veut réellement quitter l'application)
+[x] Gestion du bouton Back (message pour confirmer que l'on veut réellement quitter l'application)
 
 [ ] L'affichage d'une liste avec son adapter
 
@@ -20,7 +20,7 @@ Liste des fonctionnalités implémentées :
 
 [ ] La pertinence d'utilisation des layouts (L'application doit être responsive et supporter: portrait/paysage et tablette)
 
-[ ] L'utilisation de d’événement améliorant l'ux (pex: swipe). Préciser :
+[ ] L'utilisation d’événement améliorant l'ux (pex: swipe). Préciser :
 
 [ ] La réalisation de composant graphique custom (Paint 2D, Calendrier,...) Préciser :
 

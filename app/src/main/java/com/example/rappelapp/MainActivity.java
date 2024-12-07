@@ -1,13 +1,22 @@
 package com.example.rappelapp;
 
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.rappelapp.RappelAdapter;
 import com.example.rappelapp.AppDatabase;
 import com.example.rappelapp.Rappel;
+import com.example.rappelapp.PreferencesManager;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -17,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RappelAdapter adapter;
     private ExecutorService executorService;
+    private PreferencesManager preferencesManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        preferencesManager = new PreferencesManager(this);
+
         executorService = Executors.newSingleThreadExecutor();
 
         executorService.execute(new Runnable() {
@@ -34,15 +46,74 @@ public class MainActivity extends AppCompatActivity {
                 AppDatabase db = AppDatabase.getInstance(MainActivity.this);
                 List<Rappel> rappels = db.rappelDao().getAllRappels();
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter = new RappelAdapter(rappels);
-                        recyclerView.setAdapter(adapter);
-                    }
+                runOnUiThread(() -> {
+                    adapter = new RappelAdapter(MainActivity.this, rappels);
+                    recyclerView.setAdapter(adapter);
+
+                    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                        @Override
+                        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                            return false;
+                        }
+
+                        @Override
+                        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                            int position = viewHolder.getAdapterPosition();
+                            Rappel rappel = adapter.getRappelAt(position);
+                            AppDatabase db = AppDatabase.getInstance(MainActivity.this);
+                            new Thread(() -> {
+                                db.rappelDao().delete(rappel);
+                                runOnUiThread(() -> {
+                                    adapter.removeRappel(position);
+                                    Toast.makeText(MainActivity.this, "Rappel supprimé", Toast.LENGTH_SHORT).show();
+                                });
+                            }).start();
+                        }
+                    });
+                    itemTouchHelper.attachToRecyclerView(recyclerView);
                 });
             }
         });
+
+        findViewById(R.id.btnSettings).setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+        });
+
+        findViewById(R.id.btnAbout).setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, AboutActivity.class));
+        });
+
+        findViewById(R.id.btnAddRappel).setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, AddRappelActivity.class));
+        });
+
+        findViewById(R.id.btnDeleteAllRappels).setOnClickListener(v -> {
+            new Thread(() -> {
+                AppDatabase db = AppDatabase.getInstance(MainActivity.this);
+                db.rappelDao().deleteAll(); // Supprime tous les rappels de la base de données
+
+                runOnUiThread(() -> {
+                    adapter.clearRappels(); // Nettoie la liste des rappels dans l'adaptateur
+                    Toast.makeText(MainActivity.this, "Tous les rappels ont été supprimés", Toast.LENGTH_SHORT).show();
+                });
+            }).start();
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String alarmToneUri = preferencesManager.getAlarmTone();
+
+        Uri uri = Uri.parse(alarmToneUri);
+        String toneName = uri.getLastPathSegment();
+
+        if (toneName != null && toneName.contains(".")) {
+            toneName = toneName.substring(0, toneName.lastIndexOf('.'));
+        }
+
+        TextView alarmToneText = findViewById(R.id.alarm_tone_text);
+        alarmToneText.setText("Sonnerie actuelle : " + toneName);
     }
 
     @Override
