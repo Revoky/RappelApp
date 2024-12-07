@@ -52,18 +52,10 @@ public class RappelAdapter extends RecyclerView.Adapter<RappelAdapter.RappelView
         });
     }
 
+
     @Override
     public int getItemCount() {
         return rappels.size();
-    }
-
-    public Rappel getRappelAt(int position) {
-        return rappels.get(position);
-    }
-
-    public void removeRappel(int position) {
-        rappels.remove(position);
-        notifyItemRemoved(position);
     }
 
     static class RappelViewHolder extends RecyclerView.ViewHolder {
@@ -85,4 +77,5 @@ public class RappelAdapter extends RecyclerView.Adapter<RappelAdapter.RappelView
         rappels.clear();
         notifyDataSetChanged();
     }
+
 }

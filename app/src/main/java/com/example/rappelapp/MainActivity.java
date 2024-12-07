@@ -2,17 +2,13 @@ package com.example.rappelapp;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.rappelapp.RappelAdapter;
 import com.example.rappelapp.AppDatabase;
 import com.example.rappelapp.Rappel;
@@ -35,8 +31,11 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        preferencesManager = new PreferencesManager(this);  // Initialisation
 
-        preferencesManager = new PreferencesManager(this);
+        TextView alarmToneText = findViewById(R.id.alarm_tone_text);
+        String alarmTone = preferencesManager.getAlarmTone();
+        alarmToneText.setText("Sonnerie actuelle : " + alarmTone);
 
         executorService = Executors.newSingleThreadExecutor();
 
@@ -49,29 +48,8 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     adapter = new RappelAdapter(MainActivity.this, rappels);
                     recyclerView.setAdapter(adapter);
-
-                    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-                        @Override
-                        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                            return false;
-                        }
-
-                        @Override
-                        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                            int position = viewHolder.getAdapterPosition();
-                            Rappel rappel = adapter.getRappelAt(position);
-                            AppDatabase db = AppDatabase.getInstance(MainActivity.this);
-                            new Thread(() -> {
-                                db.rappelDao().delete(rappel);
-                                runOnUiThread(() -> {
-                                    adapter.removeRappel(position);
-                                    Toast.makeText(MainActivity.this, "Rappel supprimé", Toast.LENGTH_SHORT).show();
-                                });
-                            }).start();
-                        }
-                    });
-                    itemTouchHelper.attachToRecyclerView(recyclerView);
                 });
+
             }
         });
 
@@ -98,22 +76,8 @@ public class MainActivity extends AppCompatActivity {
                 });
             }).start();
         });
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        String alarmToneUri = preferencesManager.getAlarmTone();
 
-        Uri uri = Uri.parse(alarmToneUri);
-        String toneName = uri.getLastPathSegment();
-
-        if (toneName != null && toneName.contains(".")) {
-            toneName = toneName.substring(0, toneName.lastIndexOf('.'));
-        }
-
-        TextView alarmToneText = findViewById(R.id.alarm_tone_text);
-        alarmToneText.setText("Sonnerie actuelle : " + toneName);
     }
 
     @Override

@@ -4,20 +4,22 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class PreferencesManager {
-    private static final String PREF_NAME = "AlarmPreferences";
-    private static final String ALARM_TONE_KEY = "alarm_tone";
-
-    private final SharedPreferences sharedPreferences;
+    private static final String PREF_NAME = "AlarmAppPreferences";
+    private static final String KEY_ALARM_TONE = "alarm_tone";
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     public PreferencesManager(Context context) {
         sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
     }
 
-    public void setAlarmTone(String uri) {
-        sharedPreferences.edit().putString(ALARM_TONE_KEY, uri).apply();
+    public void setAlarmTone(String tone) {
+        editor.putString(KEY_ALARM_TONE, tone);
+        editor.apply();
     }
 
     public String getAlarmTone() {
-        return sharedPreferences.getString(ALARM_TONE_KEY, null);
+        return sharedPreferences.getString(KEY_ALARM_TONE, "default_tone");
     }
 }
