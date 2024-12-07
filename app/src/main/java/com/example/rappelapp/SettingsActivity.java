@@ -35,6 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
         btnSaveTone.setOnClickListener(v -> {
             Uri selectedTone = toneAdapter.getSelectedToneUri();
             if (selectedTone != null) {
+                // Sauvegarder la tonalité sélectionnée dans les SharedPreferences
                 preferencesManager.setAlarmTone(selectedTone.toString());
                 Toast.makeText(this, "Tonalité sauvegardée", Toast.LENGTH_SHORT).show();
             } else {

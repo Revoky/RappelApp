@@ -3,6 +3,7 @@ package com.example.rappelapp;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,15 +43,32 @@ public class ToneAdapter extends RecyclerView.Adapter<ToneAdapter.ToneViewHolder
         Tone tone = toneList.get(position);
         holder.txtToneName.setText(tone.getName());
 
+        // Ajouter un log pour suivre la sélection de la tonalité
+        Log.d("ToneAdapter", "Binding tone: " + tone.getName() + " at position: " + position);
+
         holder.btnPlayTone.setOnClickListener(v -> playTone(tone.getUri()));
 
         holder.chkSelectTone.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // Log lorsque l'état de la case à cocher change
+            Log.d("ToneAdapter", "Checkbox changed: " + isChecked + " for tone: " + tone.getName());
+
             if (isChecked) {
+                // Sauvegarder l'URI de la tonalité sélectionnée
                 selectedToneUri = tone.getUri();
-                notifyDataSetChanged();
+
+                // Retarder la mise à jour après que la mise en page soit terminée
+                holder.itemView.post(() -> {
+                    // Ne pas appeler notifyDataSetChanged() pour éviter les problèmes de mise en page
+                    // Utiliser notifyItemChanged() pour mettre à jour seulement l'élément
+                    notifyItemChanged(position);
+                });
+            } else {
+                // Si la case est décochée, supprimer la sélection
+                selectedToneUri = null;
             }
         });
 
+        // Vérifier si cette tonalité est déjà sélectionnée et mettre à jour l'UI
         holder.chkSelectTone.setChecked(selectedToneUri != null && selectedToneUri.equals(tone.getUri()));
     }
 

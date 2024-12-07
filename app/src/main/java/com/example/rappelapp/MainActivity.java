@@ -103,17 +103,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        // Récupérer la tonalité de l'alarme sauvegardée
         String alarmToneUri = preferencesManager.getAlarmTone();
 
-        Uri uri = Uri.parse(alarmToneUri);
-        String toneName = uri.getLastPathSegment();
+        if (alarmToneUri != null) {
+            Uri uri = Uri.parse(alarmToneUri);
+            String toneName = uri.getLastPathSegment();
 
-        if (toneName != null && toneName.contains(".")) {
-            toneName = toneName.substring(0, toneName.lastIndexOf('.'));
+            if (toneName != null && toneName.contains(".")) {
+                toneName = toneName.substring(0, toneName.lastIndexOf('.'));
+            }
+
+            // Afficher la tonalité sélectionnée
+            TextView alarmToneText = findViewById(R.id.alarm_tone_text);
+            alarmToneText.setText("Sonnerie actuelle : " + toneName);
+        } else {
+            TextView alarmToneText = findViewById(R.id.alarm_tone_text);
+            alarmToneText.setText("Aucune sonnerie sélectionnée");
         }
-
-        TextView alarmToneText = findViewById(R.id.alarm_tone_text);
-        alarmToneText.setText("Sonnerie actuelle : " + toneName);
     }
 
     @Override
