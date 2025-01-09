@@ -1,5 +1,6 @@
 package com.example.rappelapp;
 
+import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,14 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SettingsActivity extends AppCompatActivity {
+public class TonesActivity extends AppCompatActivity {
     private ToneAdapter toneAdapter;
     private PreferencesManager preferencesManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_tones);
 
         preferencesManager = new PreferencesManager(this);
 
@@ -35,9 +36,10 @@ public class SettingsActivity extends AppCompatActivity {
         btnSaveTone.setOnClickListener(v -> {
             Uri selectedTone = toneAdapter.getSelectedToneUri();
             if (selectedTone != null) {
-                // Sauvegarder la tonalité sélectionnée dans les SharedPreferences
-                preferencesManager.setAlarmTone(selectedTone.toString());
-                Toast.makeText(this, "Tonalité sauvegardée", Toast.LENGTH_SHORT).show();
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("selectedToneUri", selectedTone.toString());
+                setResult(RESULT_OK, resultIntent);
+                finish();
             } else {
                 Toast.makeText(this, "Veuillez sélectionner une tonalité", Toast.LENGTH_SHORT).show();
             }
