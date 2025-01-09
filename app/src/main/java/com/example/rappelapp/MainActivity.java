@@ -2,9 +2,7 @@ package com.example.rappelapp;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,6 +12,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -95,8 +96,7 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.menu_add_rappel) {
             startActivity(new Intent(MainActivity.this, AddRappelActivity.class));
             return true;
-        }
-        else if (item.getItemId() == R.id.menu_delete_all_rappels) {
+        } else if (item.getItemId() == R.id.menu_delete_all_rappels) {
             new Thread(() -> {
                 AppDatabase db = AppDatabase.getInstance(MainActivity.this);
                 List<Rappel> rappels = db.rappelDao().getAllRappels();
@@ -112,11 +112,56 @@ public class MainActivity extends AppCompatActivity {
                 });
             }).start();
             return true;
-        }
-        else if (item.getItemId() == R.id.menu_about) {
+        } else if (item.getItemId() == R.id.menu_restore_rappels) {
+            new Thread(() -> {
+                FileManager fileManager = new FileManager();
+                String data = FileManager.readFromFile(MainActivity.this, "rappels.txt");
+                List<Rappel> restoredRappels = RappelParser.parseRappelsFromString(data);
+
+                AppDatabase db = AppDatabase.getInstance(MainActivity.this);
+                db.rappelDao().insertAll(restoredRappels);
+
+                runOnUiThread(() -> {
+                    adapter.addRappels(restoredRappels);
+                    Toast.makeText(MainActivity.this, "Tous les derniers rappels supprimés ont été restaurés", Toast.LENGTH_SHORT).show();
+                });
+            }).start();
+            return true;
+        } else if (item.getItemId() == R.id.menu_about) {
             startActivity(new Intent(MainActivity.this, AboutActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+}
+
+class RappelParser {
+    public static List<Rappel> parseRappelsFromString(String data) {
+        List<Rappel> rappels = new ArrayList<>();
+        String[] entries = data.split("\n\n");
+
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        for (String entry : entries) {
+            String[] lines = entry.split("\n");
+            if (lines.length >= 3) {
+                String titre = lines[0].replace("Titre: ", "").trim();
+                String description = lines[1].replace("Description: ", "").trim();
+                String heureStr = lines[2].replace("Heure: ", "").trim();
+
+                long heure = 0;
+                try {
+                    Date date = format.parse(heureStr);
+                    if (date != null) {
+                        heure = date.getTime();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                Rappel rappel = new Rappel(titre, description, heure, true, "default_uri");
+                rappels.add(rappel);
+            }
+        }
+        return rappels;
     }
 }

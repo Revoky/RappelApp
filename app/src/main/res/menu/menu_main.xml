@@ -10,6 +10,10 @@
         android:title="Supprimer tous les rappels"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/menu_restore_rappels"
+        android:title="Restaurer tous les rappels"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/menu_about"
         android:title="À propos"
         app:showAsAction="ifRoom" />
