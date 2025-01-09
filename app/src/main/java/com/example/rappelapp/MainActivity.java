@@ -13,11 +13,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.rappelapp.RappelAdapter;
-import com.example.rappelapp.AppDatabase;
-import com.example.rappelapp.Rappel;
-import com.example.rappelapp.PreferencesManager;
-
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
