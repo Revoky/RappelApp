@@ -40,12 +40,12 @@ public class AddRappelActivity extends AppCompatActivity {
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Rien à faire ici
+
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Rien à faire ici
+
             }
 
             @Override
