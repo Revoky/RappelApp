@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -69,23 +73,34 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+    }
 
-        findViewById(R.id.btnSettings).setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-        });
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setMessage("Voulez-vous vraiment quitter l'application ?")
+                .setPositiveButton("Oui", (dialog, which) -> super.onBackPressed())
+                .setNegativeButton("Non", null)
+                .show();
+    }
 
-        findViewById(R.id.btnAbout).setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, AboutActivity.class));
-        });
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
-        findViewById(R.id.btnAddRappel).setOnClickListener(v -> {
+    @Override
+    public boolean onOptionsItemSelected(@NonNull android.view.MenuItem item) {
+        if (item.getItemId() == R.id.menu_add_rappel) {
             startActivity(new Intent(MainActivity.this, AddRappelActivity.class));
-        });
-
-        findViewById(R.id.btnDeleteAllRappels).setOnClickListener(v -> {
+            return true;
+        }
+        else if (item.getItemId() == R.id.menu_delete_all_rappels) {
             new Thread(() -> {
                 AppDatabase db = AppDatabase.getInstance(MainActivity.this);
                 List<Rappel> rappels = db.rappelDao().getAllRappels();
+
                 FileManager fileManager = new FileManager();
                 fileManager.saveRappelsToFile(MainActivity.this, rappels);
 
@@ -96,39 +111,12 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Tous les rappels ont été supprimés et sauvegardés", Toast.LENGTH_SHORT).show();
                 });
             }).start();
-        });
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Récupérer la tonalité de l'alarme sauvegardée
-        String alarmToneUri = preferencesManager.getAlarmTone();
-
-        if (alarmToneUri != null) {
-            Uri uri = Uri.parse(alarmToneUri);
-            String toneName = uri.getLastPathSegment();
-
-            if (toneName != null && toneName.contains(".")) {
-                toneName = toneName.substring(0, toneName.lastIndexOf('.'));
-            }
-
-            // Afficher la tonalité sélectionnée
-            TextView alarmToneText = findViewById(R.id.alarm_tone_text);
-            alarmToneText.setText("Sonnerie actuelle : " + toneName);
-        } else {
-            TextView alarmToneText = findViewById(R.id.alarm_tone_text);
-            alarmToneText.setText("Aucune sonnerie sélectionnée");
+            return true;
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setMessage("Voulez-vous vraiment quitter l'application ?")
-                .setPositiveButton("Oui", (dialog, which) -> super.onBackPressed())
-                .setNegativeButton("Non", null)
-                .show();
+        else if (item.getItemId() == R.id.menu_about) {
+            startActivity(new Intent(MainActivity.this, AboutActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
