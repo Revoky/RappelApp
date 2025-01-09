@@ -13,7 +13,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 public class AddRappelActivity extends AppCompatActivity {
@@ -41,12 +40,12 @@ public class AddRappelActivity extends AppCompatActivity {
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Rien à faire ici
+
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Rien à faire ici
+
             }
 
             @Override
@@ -99,7 +98,7 @@ public class AddRappelActivity extends AppCompatActivity {
         });
 
         btnSelectTone.setOnClickListener(v -> {
-            Intent intent = new Intent(AddRappelActivity.this, SettingsActivity.class);
+            Intent intent = new Intent(AddRappelActivity.this, TonesActivity.class);
             startActivityForResult(intent, 1);
         });
 

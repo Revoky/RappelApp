@@ -91,7 +91,7 @@ public class RappelAdapter extends RecyclerView.Adapter<RappelAdapter.RappelView
             titreTextView = itemView.findViewById(R.id.titreTextView);
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
             heureTextView = itemView.findViewById(R.id.heureTextView);
-            sonnerieTextView = itemView.findViewById(R.id.sonnerieTextView);  // Initialiser ici
+            sonnerieTextView = itemView.findViewById(R.id.sonnerieTextView);
             btnDelete = itemView.findViewById(R.id.btnDeleteRappel);
         }
     }
