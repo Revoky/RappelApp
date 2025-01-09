@@ -11,16 +11,24 @@ public class Rappel {
     private String description;
     private long heure;
     private boolean actif;
+    private String sonnerieUri;
 
-    // Constructeur
-    public Rappel(String titre, String description, long heure, boolean actif) {
+    public Rappel(String titre, String description, long heure, boolean actif, String sonnerieUri) {
         this.titre = titre;
         this.description = description;
         this.heure = heure;
         this.actif = actif;
+        this.sonnerieUri = sonnerieUri;
     }
 
-    // Getters et Setters
+    public String getSonnerieUri() {
+        return sonnerieUri;
+    }
+
+    public void setSonnerieUri(String sonnerieUri) {
+        this.sonnerieUri = sonnerieUri;
+    }
+
     public long getId() {
         return id;
     }
