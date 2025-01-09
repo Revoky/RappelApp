@@ -2,6 +2,8 @@ package com.example.rappelapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +27,68 @@ public class AddRappelActivity extends AppCompatActivity {
         editTextDescription = findViewById(R.id.editTextDescription);
         editTextHeure = findViewById(R.id.editTextHeure);
         btnSaveRappel = findViewById(R.id.btnSaveRappel);
+
+        editTextHeure.addTextChangedListener(new TextWatcher() {
+            private boolean isEditing = false;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Rien à faire ici
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Rien à faire ici
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (isEditing) return;
+                isEditing = true;
+
+                String input = s.toString();
+                input = input.replace(":", "");
+                if (input.length() >= 2) {
+                    String hours = input.substring(0, 2);
+                    String minutes = input.length() > 2 ? input.substring(2) : "";
+
+                    boolean isValid = true;
+
+                    try {
+                        int hoursInt = Integer.parseInt(hours);
+                        if (hoursInt < 0 || hoursInt > 23) {
+                            isValid = false;
+                            Toast.makeText(editTextHeure.getContext(), "Les heures doivent être entre 00 et 23", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (NumberFormatException e) {
+                        isValid = false;
+                        Toast.makeText(editTextHeure.getContext(), "Heures invalides", Toast.LENGTH_SHORT).show();
+                    }
+
+                    if (!minutes.isEmpty()) {
+                        try {
+                            int minutesInt = Integer.parseInt(minutes);
+                            if (minutesInt < 0 || minutesInt > 59) {
+                                isValid = false;
+                                Toast.makeText(editTextHeure.getContext(), "Les minutes doivent être entre 00 et 59", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (NumberFormatException e) {
+                            isValid = false;
+                            Toast.makeText(editTextHeure.getContext(), "Minutes invalides", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    if (!isValid) {
+                        s.clear();
+                    } else {
+                        String formatted = hours + (minutes.isEmpty() ? "" : ":" + minutes);
+                        editTextHeure.setText(formatted);
+                        editTextHeure.setSelection(formatted.length());
+                    }
+                }
+                isEditing = false;
+            }
+        });
 
         btnSaveRappel.setOnClickListener(v -> {
             String titre = editTextTitre.getText().toString();
