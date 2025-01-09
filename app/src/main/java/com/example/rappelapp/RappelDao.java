@@ -10,7 +10,7 @@ import java.util.List;
 @Dao
 public interface RappelDao {
     @Insert
-    long insert(Rappel rappel);
+    void insert(Rappel rappel);
 
     @Update
     void update(Rappel rappel);
@@ -20,6 +20,9 @@ public interface RappelDao {
 
     @Query("SELECT * FROM rappels")
     List<Rappel> getAllRappels();
+
+    @Query("SELECT * FROM rappels WHERE id = :id LIMIT 1")
+    Rappel getRappelById(long id);
 
     @Query("DELETE FROM rappels")
     void deleteAll();

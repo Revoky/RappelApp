@@ -5,24 +5,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="#1A1A1A">
 
     <TextView
         android:id="@+id/titreTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Alarme déclenchée !"
+        android:text="Alarme"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="#FFFFFF"
         android:gravity="center"
-        android:padding="16dp"/>
+        android:padding="16dp"
+        android:fontFamily="sans-serif-medium"/>
 
     <Button
         android:id="@+id/btnStopAlarm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Arrêter"
-        android:padding="12dp"
-        android:background="@android:color/holo_red_light"
-        android:textColor="@android:color/white"/>
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+    android:fontFamily="sans-serif-medium"
+    android:background="@drawable/rounded_orange_button"
+    android:padding="12dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="16dp" />
 </LinearLayout>

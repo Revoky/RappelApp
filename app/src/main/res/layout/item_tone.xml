@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp">
+    android:padding="16dp"
+    android:background="#1A1A1A"
+    android:gravity="center_vertical">
 
     <TextView
         android:id="@+id/txtToneName"
@@ -11,18 +13,25 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Tonalité"
-        android:textSize="16sp" />
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:fontFamily="sans-serif-medium" />
 
     <Button
         android:id="@+id/btnPlayTone"
-        android:layout_width="wrap_content"
+        android:layout_width="78dp"
         android:layout_height="wrap_content"
-        android:text="Jouer" />
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        android:drawableLeft="@drawable/play"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="#FFA500" />
 
     <CheckBox
         android:id="@+id/chkSelectTone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:focusable="false"
-        android:focusableInTouchMode="false" />
+        android:focusableInTouchMode="false"
+        android:buttonTint="#FFA500" />
 </LinearLayout>
