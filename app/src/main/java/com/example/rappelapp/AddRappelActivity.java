@@ -1,16 +1,19 @@
 package com.example.rappelapp;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class AddRappelActivity extends AppCompatActivity {
@@ -113,13 +116,48 @@ public class AddRappelActivity extends AppCompatActivity {
             try {
                 SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                 Date date = format.parse(heureStr);
-                long heure = date != null ? date.getTime() : System.currentTimeMillis();
 
-                Rappel rappel = new Rappel(titre, description, heure, true, selectedToneUri);  // Ajout de l'URI de la sonnerie
+                long currentTime = System.currentTimeMillis();
+                long calculatedHeure = date != null ? date.getTime() : currentTime;
+
+                if (date != null) {
+                    Date today = new Date(currentTime);
+                    Date fullDate = new Date(today.getYear(), today.getMonth(), today.getDate(),
+                            date.getHours(), date.getMinutes());
+                    calculatedHeure = fullDate.getTime();
+
+                    if (calculatedHeure < currentTime) {
+                        calculatedHeure += 24 * 60 * 60 * 1000;
+                    }
+                }
+
+                final long heureFinal = calculatedHeure;
+                Rappel rappel = new Rappel(titre, description, heureFinal, true, selectedToneUri);
 
                 new Thread(() -> {
                     AppDatabase db = AppDatabase.getInstance(AddRappelActivity.this);
                     db.rappelDao().insert(rappel);
+
+                    Intent alarmIntent = new Intent(AddRappelActivity.this, AlarmReceiver.class);
+                    alarmIntent.putExtra("titre", titre);
+                    alarmIntent.putExtra("sonnerieUri", selectedToneUri);
+
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                            AddRappelActivity.this,
+                            (int) heureFinal,
+                            alarmIntent,
+                            PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+                    );
+
+                    AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+                    if (alarmManager != null) {
+                        alarmManager.setExact(
+                                AlarmManager.RTC_WAKEUP,
+                                heureFinal,
+                                pendingIntent
+                        );
+                    }
 
                     runOnUiThread(() -> {
                         Toast.makeText(AddRappelActivity.this, "Rappel ajouté", Toast.LENGTH_SHORT).show();
@@ -127,10 +165,34 @@ public class AddRappelActivity extends AppCompatActivity {
                         finish();
                     });
                 }).start();
+
             } catch (Exception e) {
                 Toast.makeText(AddRappelActivity.this, "Format de l'heure incorrect", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void scheduleAlarm(Rappel rappel) {
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        alarmIntent.putExtra("titre", rappel.getTitre());
+        alarmIntent.putExtra("sonnerieUri", rappel.getSonnerieUri());
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                (int) rappel.getHeure(),
+                alarmIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        if (alarmManager != null) {
+            alarmManager.setExact(
+                    AlarmManager.RTC_WAKEUP,
+                    rappel.getHeure(),
+                    pendingIntent
+            );
+        }
     }
 
     @Override
