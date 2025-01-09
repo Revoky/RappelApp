@@ -85,14 +85,19 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnDeleteAllRappels).setOnClickListener(v -> {
             new Thread(() -> {
                 AppDatabase db = AppDatabase.getInstance(MainActivity.this);
-                db.rappelDao().deleteAll(); // Supprime tous les rappels de la base de données
+                List<Rappel> rappels = db.rappelDao().getAllRappels();
+                FileManager fileManager = new FileManager();
+                fileManager.saveRappelsToFile(MainActivity.this, rappels);
+
+                db.rappelDao().deleteAll();
 
                 runOnUiThread(() -> {
-                    adapter.clearRappels(); // Nettoie la liste des rappels dans l'adaptateur
-                    Toast.makeText(MainActivity.this, "Tous les rappels ont été supprimés", Toast.LENGTH_SHORT).show();
+                    adapter.clearRappels();
+                    Toast.makeText(MainActivity.this, "Tous les rappels ont été supprimés et sauvegardés", Toast.LENGTH_SHORT).show();
                 });
             }).start();
         });
+
     }
 
     @Override
