@@ -34,6 +34,12 @@
         android:inputType="time"/>
 
     <Button
+        android:id="@+id/btnSelectTone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choisir la sonnerie" />
+
+    <Button
         android:id="@+id/btnSaveRappel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

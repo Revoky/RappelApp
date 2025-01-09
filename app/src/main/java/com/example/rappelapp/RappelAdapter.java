@@ -1,6 +1,9 @@
 package com.example.rappelapp;
 
 import android.content.Context;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +42,13 @@ public class RappelAdapter extends RecyclerView.Adapter<RappelAdapter.RappelView
         String heureStr = format.format(new Date(rappel.getHeure()));
         holder.heureTextView.setText(heureStr);
 
+        String sonnerieUriString = rappel.getSonnerieUri();
+        if (sonnerieUriString != null) {
+            Uri sonnerieUri = Uri.parse(sonnerieUriString);
+            String sonnerieName = getRingtoneTitle(sonnerieUri);
+            holder.sonnerieTextView.setText("Sonnerie : " + sonnerieName);
+        }
+
         holder.btnDelete.setOnClickListener(v -> {
             new Thread(() -> {
                 AppDatabase db = AppDatabase.getInstance(context);
@@ -64,10 +74,16 @@ public class RappelAdapter extends RecyclerView.Adapter<RappelAdapter.RappelView
         notifyItemRemoved(position);
     }
 
+    private String getRingtoneTitle(Uri uri) {
+        Ringtone ringtone = RingtoneManager.getRingtone(context, uri);
+        return ringtone.getTitle(context);
+    }
+
     static class RappelViewHolder extends RecyclerView.ViewHolder {
         TextView titreTextView;
         TextView descriptionTextView;
         TextView heureTextView;
+        TextView sonnerieTextView;
         Button btnDelete;
 
         RappelViewHolder(View itemView) {
@@ -75,6 +91,7 @@ public class RappelAdapter extends RecyclerView.Adapter<RappelAdapter.RappelView
             titreTextView = itemView.findViewById(R.id.titreTextView);
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
             heureTextView = itemView.findViewById(R.id.heureTextView);
+            sonnerieTextView = itemView.findViewById(R.id.sonnerieTextView);  // Initialiser ici
             btnDelete = itemView.findViewById(R.id.btnDeleteRappel);
         }
     }

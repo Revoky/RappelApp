@@ -17,6 +17,8 @@ public class AddRappelActivity extends AppCompatActivity {
 
     private EditText editTextTitre, editTextDescription, editTextHeure;
     private Button btnSaveRappel;
+    private String selectedToneUri;
+    private PreferencesManager preferencesManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,9 @@ public class AddRappelActivity extends AppCompatActivity {
         editTextDescription = findViewById(R.id.editTextDescription);
         editTextHeure = findViewById(R.id.editTextHeure);
         btnSaveRappel = findViewById(R.id.btnSaveRappel);
+        Button btnSelectTone = findViewById(R.id.btnSelectTone);
+
+        preferencesManager = new PreferencesManager(this);
 
         editTextHeure.addTextChangedListener(new TextWatcher() {
             private boolean isEditing = false;
@@ -90,13 +95,18 @@ public class AddRappelActivity extends AppCompatActivity {
             }
         });
 
+        btnSelectTone.setOnClickListener(v -> {
+            Intent intent = new Intent(AddRappelActivity.this, SettingsActivity.class);
+            startActivityForResult(intent, 1);
+        });
+
         btnSaveRappel.setOnClickListener(v -> {
             String titre = editTextTitre.getText().toString();
             String description = editTextDescription.getText().toString();
             String heureStr = editTextHeure.getText().toString();
 
-            if (titre.isEmpty() || description.isEmpty() || heureStr.isEmpty()) {
-                Toast.makeText(AddRappelActivity.this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
+            if (titre.isEmpty() || description.isEmpty() || heureStr.isEmpty() || selectedToneUri == null) {
+                Toast.makeText(AddRappelActivity.this, "Veuillez remplir tous les champs et choisir une sonnerie", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -105,7 +115,7 @@ public class AddRappelActivity extends AppCompatActivity {
                 Date date = format.parse(heureStr);
                 long heure = date != null ? date.getTime() : System.currentTimeMillis();
 
-                Rappel rappel = new Rappel(titre, description, heure, true);
+                Rappel rappel = new Rappel(titre, description, heure, true, selectedToneUri);  // Ajout de l'URI de la sonnerie
 
                 new Thread(() -> {
                     AppDatabase db = AppDatabase.getInstance(AddRappelActivity.this);
@@ -121,5 +131,15 @@ public class AddRappelActivity extends AppCompatActivity {
                 Toast.makeText(AddRappelActivity.this, "Format de l'heure incorrect", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            selectedToneUri = data.getStringExtra("selectedToneUri");
+            preferencesManager.saveAlarmTone(selectedToneUri);
+        }
     }
 }

@@ -30,6 +30,15 @@
             android:paddingBottom="8dp" />
 
         <TextView
+            android:id="@+id/sonnerieTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="Sonnerie : Nom de la sonnerie"
+            android:textColor="@android:color/darker_gray"
+            android:paddingTop="8dp" />
+
+        <TextView
             android:id="@+id/heureTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
