@@ -3,14 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
-    android:background="?android:attr/selectableItemBackground">
+    android:background="#000000"> <!-- Fond noir -->
+
+    <!-- Heure de l'alarme -->
+    <TextView
+        android:id="@+id/heureTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="36sp"
+        android:text="07:15"
+        android:textColor="#FFFFFF"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="start"
+        android:paddingBottom="8dp" />
 
     <LinearLayout
         android:id="@+id/infoLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toStartOf="@id/btnDeleteRappel"
-        android:layout_toLeftOf="@id/btnDeleteRappel"
+        android:layout_below="@id/heureTextView"
         android:orientation="vertical">
 
         <TextView
@@ -19,7 +30,9 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:text="Titre du rappel"
-            android:paddingBottom="8dp" />
+            android:paddingBottom="4dp"
+            android:textColor="#CCCCCC"
+        android:fontFamily="sans-serif" />
 
         <TextView
             android:id="@+id/descriptionTextView"
@@ -27,25 +40,19 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:text="Description du rappel"
-            android:paddingBottom="8dp" />
-
-        <TextView
-            android:id="@+id/sonnerieTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:text="Sonnerie : Nom de la sonnerie"
-            android:textColor="@android:color/darker_gray"
-            android:paddingTop="8dp" />
-
-        <TextView
-            android:id="@+id/heureTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:text="Heure : 00:00"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="#888888"
+            android:fontFamily="sans-serif" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/sonnerieTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:text="Sonnerie"
+        android:textColor="#888888"
+        android:layout_below="@id/infoLayout"
+        android:paddingTop="8dp" />
 
     <Button
         android:id="@+id/btnDeleteRappel"
@@ -53,6 +60,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:text="Supprimer" />
+        android:text="Supprimer"
+        android:textColor="#FFA500"
+        android:background="@android:color/transparent"
+        android:padding="8dp"
+        android:elevation="2dp" />
 
 </RelativeLayout>
