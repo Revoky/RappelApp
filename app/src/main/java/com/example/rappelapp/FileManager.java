@@ -1,11 +1,14 @@
 package com.example.rappelapp;
 
 import android.content.Context;
+import android.icu.text.SimpleDateFormat;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Date;
 import java.util.List;
 
 public class FileManager {
@@ -47,7 +50,10 @@ public class FileManager {
         for (Rappel rappel : rappels) {
             data.append("Titre: ").append(rappel.getTitre()).append("\n");
             data.append("Description: ").append(rappel.getDescription()).append("\n");
-            data.append("Heure: ").append(rappel.getHeure()).append("\n\n");
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+            String heureStr = format.format(new Date(rappel.getHeure()));
+            data.append("Heure: ").append(heureStr).append("\n\n");
+
         }
 
         FileManager.writeToFile(context, "rappels.txt", data.toString());
