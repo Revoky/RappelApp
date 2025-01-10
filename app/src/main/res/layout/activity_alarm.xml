@@ -27,9 +27,9 @@
         android:text="Arrêter"
         android:textSize="18sp"
         android:textColor="#FFFFFF"
-    android:fontFamily="sans-serif-medium"
-    android:background="@drawable/rounded_orange_button"
-    android:padding="12dp"
-    android:layout_gravity="center"
-    android:layout_marginTop="16dp" />
+        android:fontFamily="sans-serif-medium"
+        android:background="@drawable/rounded_orange_button"
+        android:padding="12dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp" />
 </LinearLayout>

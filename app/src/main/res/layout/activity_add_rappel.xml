@@ -109,13 +109,13 @@
 
     <Button
         android:id="@+id/btnSelectTone"
-        android:layout_width="match_parent"
+        android:layout_width="159dp"
         android:layout_height="wrap_content"
-        android:background="#1A1A1A"
-        android:text="Sonnerie"
-        android:textSize="18sp"
-        android:textColor="#FFA500"
+        android:layout_marginBottom="8dp"
         android:fontFamily="sans-serif-medium"
         android:padding="16dp"
-        android:layout_marginBottom="8dp" />
+        android:text="SONNERIE"
+        android:textSize="18sp"
+        android:gravity="center"
+        style="@style/ButtonStyle" />
 </LinearLayout>
