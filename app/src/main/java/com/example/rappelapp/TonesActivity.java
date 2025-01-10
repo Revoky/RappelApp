@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SettingsActivity extends AppCompatActivity {
+public class TonesActivity extends AppCompatActivity {
     private ToneAdapter toneAdapter;
     private PreferencesManager preferencesManager;
 

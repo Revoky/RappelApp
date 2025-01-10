@@ -79,6 +79,12 @@ public class RappelAdapter extends RecyclerView.Adapter<RappelAdapter.RappelView
         return ringtone.getTitle(context);
     }
 
+    public void addRappels(List<Rappel> newRappels) {
+        int startPosition = rappels.size();
+        rappels.addAll(newRappels);
+        notifyItemRangeInserted(startPosition, newRappels.size());
+    }
+
     static class RappelViewHolder extends RecyclerView.ViewHolder {
         TextView titreTextView;
         TextView descriptionTextView;
