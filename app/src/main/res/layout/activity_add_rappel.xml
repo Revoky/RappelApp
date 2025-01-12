@@ -1,121 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp"
-    android:gravity="center"
     android:background="#000000">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/btnSaveRappel"
+        android:layout_width="138dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="112dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="sans-serif-medium"
+        android:text="Enregistrer"
+        android:textAllCaps="false"
+        android:textColor="#FFA500"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="16dp">
+        android:layout_marginTop="120dp"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:text="Nouv. alarme"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@id/btnSaveRappel"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/btnCancel"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/btnCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Annuler"
-            android:textColor="#FFA500"
-            android:textSize="18sp"
-            android:fontFamily="sans-serif-medium"
-            android:paddingEnd="16dp" />
-
-        <TextView
-            android:id="@+id/titleText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Nouv. alarme"
-            android:textColor="#FFFFFF"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:fontFamily="sans-serif-medium" />
-
-        <Button
-            android:id="@+id/btnSaveRappel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enregistrer"
-            android:textColor="#FFA500"
-            android:textSize="18sp"
-            android:fontFamily="sans-serif-medium"
-            android:paddingStart="16dp"
-            android:background="@android:color/transparent"
-            android:textAllCaps="false" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="124dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Annuler"
+        android:textColor="#FFA500"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editTextHeure"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="HH  :  mm"
-        android:textSize="18sp"
+        android:layout_marginTop="48dp"
         android:background="@drawable/rounded_edittext_bg"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:hint="HH  :  mm"
+        android:inputType="time"
+        android:padding="12dp"
         android:textColor="#FFFFFF"
         android:textColorHint="#888888"
-        android:fontFamily="sans-serif-light"
-        android:padding="12dp"
-        android:gravity="center"
-        android:inputType="time" />
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnCancel" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/textContainer"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_marginTop="40dp"
         android:background="#1A1A1A"
         android:padding="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:elevation="4dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextHeure">
 
         <EditText
             android:id="@+id/editTextTitre"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Titre du rappel"
-            android:textSize="18sp"
             android:background="#1A1A1A"
+            android:fontFamily="sans-serif-light"
+            android:hint="Titre du rappel"
+            android:padding="8dp"
             android:textColor="#FFFFFF"
             android:textColorHint="#888888"
-            android:fontFamily="sans-serif-light"
-            android:padding="8dp" />
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="#888888" />
+            android:background="#888888"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editTextTitre" />
 
         <EditText
             android:id="@+id/editTextDescription"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Description"
-            android:textSize="18sp"
             android:background="#1A1A1A"
+            android:fontFamily="sans-serif-light"
+            android:gravity="top|start"
+            android:hint="Description"
+            android:inputType="textMultiLine"
+            android:lines="3"
+            android:padding="8dp"
             android:textColor="#FFFFFF"
             android:textColorHint="#888888"
-            android:fontFamily="sans-serif-light"
-            android:padding="8dp"
-            android:inputType="textMultiLine"
-            android:gravity="top|start"
-            android:lines="3"
-            android:maxLines="3"
-            android:minLines="3" />
-    </LinearLayout>
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editTextTitre" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/btnSelectTone"
-        android:layout_width="159dp"
+        style="@style/ButtonStyle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="48dp"
         android:fontFamily="sans-serif-medium"
+        android:gravity="center"
         android:padding="16dp"
         android:text="SONNERIE"
+        android:textAllCaps="false"
         android:textSize="18sp"
-        android:gravity="center"
-        style="@style/ButtonStyle" />
-</LinearLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textContainer" />
+</androidx.constraintlayout.widget.ConstraintLayout>

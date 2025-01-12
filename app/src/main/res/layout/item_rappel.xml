@@ -1,28 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
-    android:background="#000000"> <!-- Fond noir -->
+    android:background="#000000">
 
-    <!-- Heure de l'alarme -->
     <TextView
         android:id="@+id/heureTextView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="36sp"
         android:text="07:15"
         android:textColor="#FFFFFF"
         android:fontFamily="sans-serif-medium"
         android:gravity="start"
-        android:paddingBottom="8dp" />
+        android:paddingBottom="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnDeleteRappel"/>
+
+    <Button
+        android:id="@+id/btnDeleteRappel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Supprimer"
+        android:textColor="#FFA500"
+        android:background="@android:color/transparent"
+        android:padding="8dp"
+        android:elevation="2dp"
+        app:layout_constraintStart_toEndOf="@id/heureTextView"
+        app:layout_constraintTop_toTopOf="@id/heureTextView"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <LinearLayout
         android:id="@+id/infoLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/heureTextView"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/heureTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
             android:id="@+id/titreTextView"
@@ -46,24 +65,13 @@
 
     <TextView
         android:id="@+id/sonnerieTextView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="14sp"
         android:text="Sonnerie"
         android:textColor="#888888"
-        android:layout_below="@id/infoLayout"
-        android:paddingTop="8dp" />
-
-    <Button
-        android:id="@+id/btnDeleteRappel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:text="Supprimer"
-        android:textColor="#FFA500"
-        android:background="@android:color/transparent"
-        android:padding="8dp"
-        android:elevation="2dp" />
-
-</RelativeLayout>
+        android:paddingTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/infoLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
