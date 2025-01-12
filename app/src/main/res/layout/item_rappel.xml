@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
@@ -33,6 +34,20 @@
         app:layout_constraintStart_toEndOf="@id/heureTextView"
         app:layout_constraintTop_toTopOf="@id/heureTextView"
         app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/btnEditRappel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
+        android:elevation="2dp"
+        android:padding="8dp"
+        android:text="Modifier"
+        android:textColor="#FFA500"
+        app:layout_constraintEnd_toStartOf="@+id/btnDeleteRappel"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="-1dp" />
 
     <LinearLayout
         android:id="@+id/infoLayout"
