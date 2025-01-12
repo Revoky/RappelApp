@@ -76,7 +76,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="- Ajout rapide et facile d'alarmes\n- Gestion des alarmes existantes : suppression\n- Suppression de toutes les alarmes en même temps, tout en créant une sauvegarde\n- Restauration des alarmes supprimées de la manière précédente"
+            android:text="- Ajout rapide et facile d'alarmes\n\n- Gestion des alarmes existantes : modification et suppression\n\n- Suppression de toutes les alarmes en même temps, tout en créant une sauvegarde\n\n- Restauration des alarmes supprimées récemment"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/app_features_title"
             app:layout_constraintStart_toStartOf="parent"

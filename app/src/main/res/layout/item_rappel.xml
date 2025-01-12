@@ -22,6 +22,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnDeleteRappel"/>
 
+    <com.example.rappelapp.BellView
+        android:id="@+id/bellView"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_constraintBottom_toBottomOf="@id/heureTextView"
+        app:layout_constraintEnd_toStartOf="@+id/btnEditRappel"
+        app:layout_constraintTop_toTopOf="@id/heureTextView"
+        android:layout_marginEnd="8dp" />
+
     <Button
         android:id="@+id/btnDeleteRappel"
         android:layout_width="wrap_content"
