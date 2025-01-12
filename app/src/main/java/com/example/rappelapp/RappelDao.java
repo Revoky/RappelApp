@@ -23,4 +23,7 @@ public interface RappelDao {
 
     @Query("DELETE FROM rappels")
     void deleteAll();
+
+    @Insert
+    void insertAll(List<Rappel> restoredRappels);
 }

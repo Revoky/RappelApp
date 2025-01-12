@@ -1,21 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp"
+    android:background="#000000"
     tools:context=".AboutActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="À propos de l'application"
-        android:textSize="20sp" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cette application permet de créer des rappels avec des alarmes." />
+        <TextView
+            android:id="@+id/about_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="À propos de RappelApp"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:textColor="#CCCCCC"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/app_version"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Version : 1.0.0"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="#CCCCCC"
+            app:layout_constraintTop_toBottomOf="@id/about_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/app_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Cette application d'alarme vous aide à organiser vos rappels quotidiens de manière simple et intuitive. \nElle est fiable, minimaliste et agréable à utiliser pour vous accompagner dans votre organisation personnelle.\n\nPour une utilisation optimale de l'application, pensez à paramétrer votre téléphone sous le format horaire 24h."
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/app_version"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="À propos de l'application"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@id/app_description"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/app_features_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:text="Fonctionnalités principales :"
+            android:textColor="#CCCCCC"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/app_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/app_features"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="- Ajout rapide et facile d'alarmes\n- Gestion des alarmes existantes : suppression\n- Suppression de toutes les alarmes en même temps, tout en créant une sauvegarde\n- Restauration des alarmes supprimées de la manière précédente"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/app_features_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/app_credits"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="Développée par Gaëlle LANIC et Fanny COSTES-ROSSIGNOL"
+            android:textColor="#CCCCCC"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/app_features" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

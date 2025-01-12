@@ -1,6 +1,7 @@
 package com.example.rappelapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -49,6 +50,18 @@ public class RappelAdapter extends RecyclerView.Adapter<RappelAdapter.RappelView
             holder.sonnerieTextView.setText("Sonnerie : " + sonnerieName);
         }
 
+        holder.btnEditRappel.setOnClickListener(v -> {
+            Intent intent = new Intent(context, EditRappelActivity.class);
+
+            intent.putExtra("rappel_id", rappel.getId());
+            intent.putExtra("titre", rappel.getTitre());
+            intent.putExtra("description", rappel.getDescription());
+            intent.putExtra("heure", new SimpleDateFormat("HH:mm").format(new Date(rappel.getHeure())));
+            intent.putExtra("sonnerie", rappel.getSonnerieUri());
+
+            context.startActivity(intent);
+        });
+
         holder.btnDelete.setOnClickListener(v -> {
             new Thread(() -> {
                 AppDatabase db = AppDatabase.getInstance(context);
@@ -59,6 +72,7 @@ public class RappelAdapter extends RecyclerView.Adapter<RappelAdapter.RappelView
             }).start();
         });
     }
+
 
     @Override
     public int getItemCount() {
@@ -79,11 +93,18 @@ public class RappelAdapter extends RecyclerView.Adapter<RappelAdapter.RappelView
         return ringtone.getTitle(context);
     }
 
+    public void addRappels(List<Rappel> newRappels) {
+        int startPosition = rappels.size();
+        rappels.addAll(newRappels);
+        notifyItemRangeInserted(startPosition, newRappels.size());
+    }
+
     static class RappelViewHolder extends RecyclerView.ViewHolder {
         TextView titreTextView;
         TextView descriptionTextView;
         TextView heureTextView;
         TextView sonnerieTextView;
+        Button btnEditRappel;
         Button btnDelete;
 
         RappelViewHolder(View itemView) {
@@ -92,9 +113,11 @@ public class RappelAdapter extends RecyclerView.Adapter<RappelAdapter.RappelView
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
             heureTextView = itemView.findViewById(R.id.heureTextView);
             sonnerieTextView = itemView.findViewById(R.id.sonnerieTextView);
+            btnEditRappel = itemView.findViewById(R.id.btnEditRappel);  // Initialiser btnEditRappel
             btnDelete = itemView.findViewById(R.id.btnDeleteRappel);
         }
     }
+
 
     public void clearRappels() {
         rappels.clear();
