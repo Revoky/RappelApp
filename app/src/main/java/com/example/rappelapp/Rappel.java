@@ -3,6 +3,8 @@ package com.example.rappelapp;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.firebase.database.Exclude;
+
 @Entity(tableName = "rappels")
 public class Rappel {
     @PrimaryKey(autoGenerate = true)
@@ -12,6 +14,10 @@ public class Rappel {
     private long heure;
     private boolean actif;
     private String sonnerieUri;
+
+    public Rappel() {
+        // Firebase (constructeur vide)
+    }
 
     public Rappel(String titre, String description, long heure, boolean actif, String sonnerieUri) {
         this.titre = titre;

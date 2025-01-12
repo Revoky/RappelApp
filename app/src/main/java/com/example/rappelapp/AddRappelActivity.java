@@ -12,6 +12,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -34,6 +37,7 @@ public class AddRappelActivity extends AppCompatActivity {
         Button btnSelectTone = findViewById(R.id.btnSelectTone);
 
         preferencesManager = new PreferencesManager(this);
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
         editTextHeure.addTextChangedListener(new TextWatcher() {
             private boolean isEditing = false;
@@ -117,53 +121,21 @@ public class AddRappelActivity extends AppCompatActivity {
                 Date date = format.parse(heureStr);
 
                 long currentTime = System.currentTimeMillis();
-                long calculatedHeure = date != null ? date.getTime() : currentTime;
+                long heureFinal = date != null ? date.getTime() : currentTime;
 
-                if (date != null) {
-                    Date today = new Date(currentTime);
-                    Date fullDate = new Date(today.getYear(), today.getMonth(), today.getDate(),
-                            date.getHours(), date.getMinutes());
-                    calculatedHeure = fullDate.getTime();
-
-                    if (calculatedHeure < currentTime) {
-                        calculatedHeure += 24 * 60 * 60 * 1000;
-                    }
+                if (heureFinal < currentTime) {
+                    heureFinal += 24 * 60 * 60 * 1000;
                 }
 
-                final long heureFinal = calculatedHeure;
                 Rappel rappel = new Rappel(titre, description, heureFinal, true, selectedToneUri);
 
-                new Thread(() -> {
-                    AppDatabase db = AppDatabase.getInstance(AddRappelActivity.this);
-                    db.rappelDao().insert(rappel);
-
-                    Intent alarmIntent = new Intent(AddRappelActivity.this, AlarmReceiver.class);
-                    alarmIntent.putExtra("titre", titre);
-                    alarmIntent.putExtra("sonnerieUri", selectedToneUri);
-
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                            AddRappelActivity.this,
-                            (int) heureFinal,
-                            alarmIntent,
-                            PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-                    );
-
-                    AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-                    if (alarmManager != null) {
-                        alarmManager.setExact(
-                                AlarmManager.RTC_WAKEUP,
-                                heureFinal,
-                                pendingIntent
-                        );
-                    }
-
-                    runOnUiThread(() -> {
-                        Toast.makeText(AddRappelActivity.this, "Rappel ajouté", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(AddRappelActivity.this, MainActivity.class));
-                        finish();
-                    });
-                }).start();
+                String id = database.push().getKey();
+                if (id != null) {
+                    database.child("rappels").child(id).setValue(rappel);
+                    Toast.makeText(AddRappelActivity.this, "Rappel ajouté", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(AddRappelActivity.this, MainActivity.class));
+                    finish();
+                }
 
             } catch (Exception e) {
                 Toast.makeText(AddRappelActivity.this, "Format de l'heure incorrect", Toast.LENGTH_SHORT).show();

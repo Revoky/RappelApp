@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         preferencesManager = new PreferencesManager(this);
 
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("rappels");
         executorService = Executors.newSingleThreadExecutor();
 
         executorService.execute(new Runnable() {
@@ -61,11 +65,22 @@ public class MainActivity extends AppCompatActivity {
                             int position = viewHolder.getAdapterPosition();
                             Rappel rappel = adapter.getRappelAt(position);
                             AppDatabase db = AppDatabase.getInstance(MainActivity.this);
+
                             new Thread(() -> {
                                 db.rappelDao().delete(rappel);
-                                runOnUiThread(() -> {
-                                    adapter.removeRappel(position);
-                                    Toast.makeText(MainActivity.this, "Rappel supprimé", Toast.LENGTH_SHORT).show();
+
+                                String rappelId = String.valueOf(rappel.getId());
+
+                                DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("rappels");
+                                database.child(rappelId).removeValue().addOnCompleteListener(task -> {
+                                    runOnUiThread(() -> {
+                                        if (task.isSuccessful()) {
+                                            adapter.removeRappel(position);
+                                            Toast.makeText(MainActivity.this, "Rappel supprimé", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(MainActivity.this, "Erreur de suppression", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                 });
                             }).start();
                         }

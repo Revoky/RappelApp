@@ -10,6 +10,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -33,6 +36,7 @@ public class EditRappelActivity extends AppCompatActivity {
         Button btnSelectTone = findViewById(R.id.btnSelectTone);
 
         preferencesManager = new PreferencesManager(this);
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
         Intent intent = getIntent();
         rappelId = intent.getLongExtra("rappel_id", -1);
@@ -65,35 +69,18 @@ public class EditRappelActivity extends AppCompatActivity {
                 Date date = format.parse(heureStr);
 
                 long currentTime = System.currentTimeMillis();
-                long calculatedHeure = date != null ? date.getTime() : currentTime;
+                long heureFinal = date != null ? date.getTime() : currentTime;
 
-                if (date != null) {
-                    Date today = new Date(currentTime);
-                    Date fullDate = new Date(today.getYear(), today.getMonth(), today.getDate(),
-                            date.getHours(), date.getMinutes());
-                    calculatedHeure = fullDate.getTime();
-
-                    if (calculatedHeure < currentTime) {
-                        calculatedHeure += 24 * 60 * 60 * 1000;
-                    }
+                if (heureFinal < currentTime) {
+                    heureFinal += 24 * 60 * 60 * 1000;
                 }
 
-                final long heureFinal = calculatedHeure;
                 Rappel rappelModifie = new Rappel(titreModifie, descriptionModifie, heureFinal, true, selectedToneUri);
-                rappelModifie.setId(rappelId);
 
-                new Thread(() -> {
-                    AppDatabase db = AppDatabase.getInstance(EditRappelActivity.this);
-                    db.rappelDao().update(rappelModifie);
-
-                    scheduleAlarm(rappelModifie);
-
-                    runOnUiThread(() -> {
-                        Toast.makeText(EditRappelActivity.this, "Rappel modifié", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(EditRappelActivity.this, MainActivity.class));
-                        finish();
-                    });
-                }).start();
+                database.child("rappels").child(String.valueOf(rappelId)).setValue(rappelModifie);
+                Toast.makeText(EditRappelActivity.this, "Rappel modifié", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(EditRappelActivity.this, MainActivity.class));
+                finish();
 
             } catch (Exception e) {
                 Toast.makeText(EditRappelActivity.this, "Format de l'heure incorrect", Toast.LENGTH_SHORT).show();

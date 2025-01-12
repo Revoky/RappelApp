@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "586846068673",
+    "project_id": "application-rappel-a4b21",
+    "storage_bucket": "application-rappel-a4b21.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:586846068673:android:2f8b7bcc7ea8984c405940",
+        "android_client_info": {
+          "package_name": "com.example.rappelapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA545yuw7Iecev_w8zsC1PlhcuLlHUKPks"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
