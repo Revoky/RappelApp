@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -34,6 +35,11 @@ public class AddRappelActivity extends AppCompatActivity {
         Button btnSelectTone = findViewById(R.id.btnSelectTone);
 
         preferencesManager = new PreferencesManager(this);
+
+        TextView btnCancel = findViewById(R.id.btnCancel);
+        btnCancel.setOnClickListener(v -> {
+            finish();
+        });
 
         editTextHeure.addTextChangedListener(new TextWatcher() {
             private boolean isEditing = false;
