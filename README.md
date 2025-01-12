@@ -8,7 +8,7 @@ Liste des fonctionnalités implémentées :
 
 [x] Utilisation de Room
 
-[ ] Utilisation de Firebase
+[ not tested ] Utilisation de Firebase
 
 [x] Nombre d'activités ou fragment supérieur ou égal à 3
 
@@ -18,7 +18,7 @@ Liste des fonctionnalités implémentées :
 
 [x] L'affichage d'une liste avec un custom adapter (avec gestion d’événement)
 
-[ ] La pertinence d'utilisation des layouts (L'application doit être responsive et supporter: portrait/paysage et tablette)
+[x] La pertinence d'utilisation des layouts (L'application doit être responsive et supporter: portrait/paysage et tablette)
 
 [x] L'utilisation d’événement améliorant l'ux (pex: swipe). Préciser : **_swipe vers la gauche pour supprimer un rappel_**
 
