@@ -8,7 +8,7 @@ Liste des fonctionnalités implémentées :
 
 [x] Utilisation de Room
 
-[ not tested ] Utilisation de Firebase
+[~] Utilisation de Firebase **_(tests sur branche feat/firebase, mais pas fonctionnel)_**
 
 [x] Nombre d'activités ou fragment supérieur ou égal à 3
 
@@ -22,7 +22,7 @@ Liste des fonctionnalités implémentées :
 
 [x] L'utilisation d’événement améliorant l'ux (pex: swipe). Préciser : **_swipe vers la gauche pour supprimer un rappel_**
 
-[ ] La réalisation de composant graphique custom (Paint 2D, Calendrier,...) Préciser :
+[x] La réalisation de composant graphique custom (Paint 2D, Calendrier,...) Préciser : **_Icone de cloche à côté de l'heure des rappels_**
 
 [x] Les taches en background (codage du démarrage d'un thread)
 
