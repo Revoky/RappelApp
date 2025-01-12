@@ -28,7 +28,7 @@
         android:layout_marginTop="124dp"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
-        android:text="Nouv. alarme"
+        android:text="Edit. alarme"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@id/btnSaveRappel"

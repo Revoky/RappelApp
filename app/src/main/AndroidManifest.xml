@@ -28,6 +28,7 @@
         <activity android:name=".TonesActivity" />
         <activity android:name=".AboutActivity" />
         <activity android:name=".AddRappelActivity" />
+        <activity android:name=".EditRappelActivity" />
         <activity android:name=".AlarmActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
